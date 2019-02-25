@@ -14,8 +14,13 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/zjy?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: mysql123
+    #在配置文件中存储加密的密码，使用对应的druid版本，执行加密脚本，把加密后的password和publicKey写入到此配置文件中，connection-properties和filters必须要有，
+    #password: mysql123
     type: com.alibaba.druid.pool.DruidDataSource
+    password: e8MYFoRHX/toflK7BnknzZdOkrEHyHg4C+UghvoFv2qvRB7ooq8wLBMzNjl+QzLk7rnjGrv+6644BctNZFeTMg==
+    druid:
+      connection-properties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKJISOcmzfuzdnOHrkIu0CGGqaINUhGsC/Tp7DtW5NtzvFycDOCGNohxh93yEJDhhokY4kxzWuWwPRIjg5VHOiUCAwEAAQ==
+      filters: config
 
 mybatis:
   configuration:
