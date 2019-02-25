@@ -1,0 +1,32 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: user-service
+  cloud:
+    consul:
+      discovery:
+        health-check-path: /consul/health
+        ip-address: 127.0.0.1
+      host: 127.0.0.1
+      port: 8500
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/zjy?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: mysql123
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+#在控制台显示执行的sql；
+logging:
+  level:
+    com.zjy.cld2019.userservice.dao: debug
+
+
+
+
+
