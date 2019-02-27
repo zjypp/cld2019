@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.zjy.cld2019</groupId>
         <artifactId>cld2019</artifactId>
@@ -10,13 +11,12 @@
     </parent>
 
     <groupId>com.zjy.cld2019</groupId>
-    <artifactId>user-service</artifactId>
-
-    <version>0.0.1-SNAPSHOT</version>
-    <name>user-service</name>
-    <description>Demo project for Spring Boot</description>
     <packaging>jar</packaging>
 
+    <artifactId>marketing-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>marketing-service</name>
+    <description>Demo project for Spring Boot</description>
 
 
 
@@ -45,11 +45,7 @@
             <version>1.2.34</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.zjy.cld2019</groupId>
-            <artifactId>common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
 
         <!-- Swagger2-->
         <dependency>
@@ -63,9 +59,13 @@
             <version>2.6.1</version>
         </dependency>
 
-
+        <!-- 项目内依赖-->
+        <dependency>
+            <groupId>com.zjy.cld2019</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
-
 
 
 </project>

@@ -2,6 +2,7 @@ package com.zjy.cld2019.userservice.controller;
 
 import com.zjy.cld2019.common.rest.RestResponse;
 import com.zjy.cld2019.common.rest.RestResponseBuilder;
+import com.zjy.cld2019.common.rest.controller.BaseController;
 import com.zjy.cld2019.common.rest.error.ServiceError;
 import com.zjy.cld2019.common.utils.PhoneUtil;
 import com.zjy.cld2019.common.utils.StringUtil;
@@ -10,6 +11,9 @@ import com.zjy.cld2019.userservice.model.User;
 import com.zjy.cld2019.userservice.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.juli.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,22 +22,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 @Api("UserServiceApi")
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     UserService userService;
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public String test(){
+        logger.trace("日志输出trace");
+        logger.debug("日志输出debug");
+        logger.info("日志输出info");
+        logger.warn("日志输出warn");
+        logger.error("日志输出error");
         return "test";
     }
 
     @ApiOperation(value="get one user info", notes="")
     @RequestMapping(value = "/getuser",method = RequestMethod.GET)
     public RestResponse<User> getUser(String id){
-        RestResponseBuilder restResponseBuilder = new RestResponseBuilder();
+
         User u = userService.getUserById(Integer.parseInt(id));
         if(u!=null){
             return restResponseBuilder.success(u);
@@ -43,9 +53,9 @@ public class UserController {
     }
 
     @ApiOperation(value="get one user info by phone", notes="")
-    @RequestMapping(value = "/getuser",method = RequestMethod.GET)
+    @RequestMapping(value = "/getuserbyphone",method = RequestMethod.GET)
     public RestResponse<User> getUserByPhone(String phone){
-        RestResponseBuilder restResponseBuilder = new RestResponseBuilder();
+
         if(!PhoneUtil.isPhone(phone)){
             return restResponseBuilder.fail(UserServiceError.SY0105);
         }
@@ -61,7 +71,7 @@ public class UserController {
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public RestResponse<User> registerUser(String phone,String username,String realName,String password,Integer age){
-        RestResponseBuilder restResponseBuilder = new RestResponseBuilder();
+
 
         if(!PhoneUtil.isPhone(phone)){
             return restResponseBuilder.fail(UserServiceError.SY0105);
@@ -85,7 +95,7 @@ public class UserController {
 
     @RequestMapping(value = "/login",method =RequestMethod.POST)
     public RestResponse<Boolean> login(String phone,String password){
-        RestResponseBuilder restResponseBuilder = new RestResponseBuilder();
+
         //the phone number is error
         if(!PhoneUtil.isPhone(phone)){
             return restResponseBuilder.fail(UserServiceError.SY0105);

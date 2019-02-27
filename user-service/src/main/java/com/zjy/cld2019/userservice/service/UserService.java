@@ -4,8 +4,10 @@ import com.zjy.cld2019.common.utils.MD5Utils;
 import com.zjy.cld2019.common.utils.PwdUtil;
 import com.zjy.cld2019.common.utils.StringUtil;
 import com.zjy.cld2019.common.utils.UUIDUtil;
+import com.zjy.cld2019.userservice.dao.UserLoginLogMapper;
 import com.zjy.cld2019.userservice.dao.UserMapper;
 import com.zjy.cld2019.userservice.model.User;
+import com.zjy.cld2019.userservice.model.UserLoginLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,9 @@ public class UserService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    UserLoginLogMapper userLoginLogMapper;
 
     public User getUserById(Integer id){
         return userMapper.getUserById(id);
@@ -57,6 +62,12 @@ public class UserService {
         String pwd = PwdUtil.generateRegPwd(password);
         User u = userMapper.login(phone,pwd);
         if(u!=null){
+            User user = userMapper.getUserByPhone(phone);
+            UserLoginLog userLoginLog = new UserLoginLog();
+            userLoginLog.setUserId(user.getUserId());
+            userLoginLog.setLoginDevice("app");
+            userLoginLog.setDeviceVersion("0.1.1");
+            userLoginLogMapper.insertLog(userLoginLog);
             return true;
         }
         else{
