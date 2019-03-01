@@ -1,0 +1,38 @@
+server:
+  port: 9004
+spring:
+  application:
+    name: order-service
+  cloud:
+    consul:
+      discovery:
+        health-check-path: /consul/health
+        ip-address: 127.0.0.1
+      host: 127.0.0.1
+      port: 8500
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/zjy?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    #在配置文件中存储加密的密码，使用对应的druid版本，执行加密脚本，把加密后的password和publicKey写入到此配置文件中，connection-properties和filters必须要有，
+    #password: mysql123
+    type: com.alibaba.druid.pool.DruidDataSource
+    password: e8MYFoRHX/toflK7BnknzZdOkrEHyHg4C+UghvoFv2qvRB7ooq8wLBMzNjl+QzLk7rnjGrv+6644BctNZFeTMg==
+    druid:
+      connection-properties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKJISOcmzfuzdnOHrkIu0CGGqaINUhGsC/Tp7DtW5NtzvFycDOCGNohxh93yEJDhhokY4kxzWuWwPRIjg5VHOiUCAwEAAQ==
+      filters: config
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+#在控制台显示执行的sql；
+logging:
+  level:
+    com.zjy.cld2019.orderservice.dao: debug
+
+
+
+
+
+

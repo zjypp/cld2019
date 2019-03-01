@@ -8,6 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="common" />
         <module name="marketing-service" />
+        <module name="order-service" />
+        <module name="pay-service" />
         <module name="user-service" />
       </profile>
     </annotationProcessing>

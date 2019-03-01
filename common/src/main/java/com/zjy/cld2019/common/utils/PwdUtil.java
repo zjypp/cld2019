@@ -18,4 +18,13 @@ public class PwdUtil {
     public static String generateRegPwd(String password){
         return MD5Utils.encryptPassword(password,"Abc123");
     }
+    /**
+     * 注册的密码生成
+     * @param password
+     * @return
+     */
+    public static String generatePayPwd(String password){
+        return MD5Utils.encryptPassword(password,"Abc123Pay");
+    }
+
 }

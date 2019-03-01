@@ -29,7 +29,7 @@ mybatis:
 #在控制台显示执行的sql；
 logging:
   level:
-    com.zjy.cld2019.userservice.dao: debug
+    com.zjy.cld2019.marketingservice.dao: debug
 
 
 

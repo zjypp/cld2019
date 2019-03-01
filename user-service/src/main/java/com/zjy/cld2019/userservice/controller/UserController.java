@@ -1,23 +1,25 @@
 package com.zjy.cld2019.userservice.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zjy.cld2019.common.rest.RestResponse;
-import com.zjy.cld2019.common.rest.RestResponseBuilder;
 import com.zjy.cld2019.common.rest.controller.BaseController;
-import com.zjy.cld2019.common.rest.error.ServiceError;
 import com.zjy.cld2019.common.utils.PhoneUtil;
 import com.zjy.cld2019.common.utils.StringUtil;
+import com.zjy.cld2019.userservice.client.MarketingServiceClient;
+import com.zjy.cld2019.userservice.client.model.MarketingCoupon;
 import com.zjy.cld2019.userservice.error.UserServiceError;
 import com.zjy.cld2019.userservice.model.User;
 import com.zjy.cld2019.userservice.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.juli.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -27,21 +29,36 @@ public class UserController extends BaseController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    MarketingServiceClient marketingServiceClient;
+
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public String test(){
+    public RestResponse<Boolean> test(){
         logger.trace("日志输出trace");
         logger.debug("日志输出debug");
         logger.info("日志输出info");
         logger.warn("日志输出warn");
         logger.error("日志输出error");
-        return "test";
+        RestResponse<List<MarketingCoupon>> coupons = marketingServiceClient.getUserCoupons("aaa");
+
+        RestResponse<Boolean> result = marketingServiceClient.addUserCoupon("aaa",0,100);
+
+        if(result!=null && result.getCode().equals("1") && result.getT()==true){
+            return restResponseBuilder.success(true);
+        }else{
+            return restResponseBuilder.success(false);
+        }
+
+        //return "test";
     }
 
+
+
     @ApiOperation(value="get one user info", notes="")
-    @RequestMapping(value = "/getuser",method = RequestMethod.GET)
+    @RequestMapping(value = "/getuser",method = RequestMethod.POST)
     public RestResponse<User> getUser(String id){
 
         User u = userService.getUserById(Integer.parseInt(id));
@@ -51,9 +68,18 @@ public class UserController extends BaseController {
             return restResponseBuilder.fail(UserServiceError.SY0101);
         }
     }
+    @RequestMapping(value = "/getuserbyuserid",method = RequestMethod.POST)
+    public RestResponse<User> getUserByUserId(String userId){
 
+        User u = userService.getUserByUserid(userId);
+        if(u!=null){
+            return restResponseBuilder.success(u);
+        }else{
+            return restResponseBuilder.fail(UserServiceError.US020003);
+        }
+    }
     @ApiOperation(value="get one user info by phone", notes="")
-    @RequestMapping(value = "/getuserbyphone",method = RequestMethod.GET)
+    @RequestMapping(value = "/getuserbyphone",method = RequestMethod.POST)
     public RestResponse<User> getUserByPhone(String phone){
 
         if(!PhoneUtil.isPhone(phone)){

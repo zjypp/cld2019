@@ -7,6 +7,8 @@ import com.zjy.cld2019.marketingservice.error.MarketingServiceError;
 import com.zjy.cld2019.marketingservice.model.MarketingCoupon;
 import com.zjy.cld2019.marketingservice.service.MarketingService;
 import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +30,7 @@ public class MarketingController extends BaseController {
     @Autowired
     MarketingService marketingService;
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/getusercoupon",method = RequestMethod.POST)
     public RestResponse<MarketingCoupon> getMarketingCoupon(String couponId){
@@ -48,6 +51,7 @@ public class MarketingController extends BaseController {
     @RequestMapping(value = "/getusercoupons",method = RequestMethod.POST)
     public RestResponse<List<MarketingCoupon>> getUserCouponList(String userId){
 
+        logger.info("userId is :" + userId);
         List<MarketingCoupon> list = marketingService.getUserCouponList(userId);
         if(list !=null && list.size()>0){
             return restResponseBuilder.success(list);

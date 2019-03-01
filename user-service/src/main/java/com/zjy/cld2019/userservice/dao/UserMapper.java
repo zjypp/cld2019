@@ -13,6 +13,9 @@ public interface UserMapper {
     @Select("select * from user where phone_num = #{phone}")
     User getUserByPhone(String phone);
 
+    @Select("select * from user where user_id = #{userId}")
+    User getUserByUserId(String userId);
+
     @Select("select * from user where phone_num = #{phone} and user_pwd = #{pwd}")
     User login(@Param("phone") String phone, @Param("pwd") String pwd);
 

@@ -23,7 +23,6 @@ public class User extends BaseModel {
     private String userPwd;
     private Date regDate;
     private String realName;
-    private Date createTime;
 
     public Integer getAge() {
         return age;
@@ -33,7 +32,7 @@ public class User extends BaseModel {
         this.age = age;
     }
 
-    private Date updateTime;
+
     private Integer age;
 
     public Integer getId() {
@@ -83,20 +82,6 @@ public class User extends BaseModel {
     public void setRealName(String realName) {
         this.realName = realName;
     }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 }
+
+

@@ -21,6 +21,7 @@
         <module>common</module>
         <module>user-service</module>
         <module>marketing-service</module>
+        <module>pay-service</module>
     </modules>
 
     <properties>
@@ -51,6 +52,10 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <!--因为jdk版本的问题，必须引入这些，
         不然报错java.lang.TypeNotPresentException: Type javax.xml.bind.JAXBContext not present -->
