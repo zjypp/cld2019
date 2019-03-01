@@ -5,6 +5,9 @@ import com.zjy.cld2019.common.rest.RestResponse;
 
 import com.zjy.cld2019.common.rest.controller.BaseController;
 import com.zjy.cld2019.common.rest.error.ServiceError;
+import com.zjy.cld2019.common.utils.StringUtil;
+import com.zjy.cld2019.orderservice.client.marketingServiceClient.MarketingServiceClient;
+import com.zjy.cld2019.orderservice.client.marketingServiceClient.model.MarketingCoupon;
 import com.zjy.cld2019.orderservice.client.payServiceClient.PayServiceClient;
 import com.zjy.cld2019.orderservice.client.payServiceClient.model.UserAccount;
 import com.zjy.cld2019.orderservice.client.userServiceClient.UserServiceClient;
@@ -42,6 +45,8 @@ public class OrderController extends BaseController {
     PayServiceClient payServiceClient;
     @Autowired
     UserServiceClient userServiceClient;
+    @Autowired
+    MarketingServiceClient marketingServiceClient;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Value("${server.port}")
@@ -62,7 +67,7 @@ public class OrderController extends BaseController {
      * 验证userid的用户是否存在，
      * 验证userid的支付账户是否开通以及有足够金额，
      * 验证库存是足够
-     * 验证优惠券是否有效可用
+     * 验证优惠券是否有效可用，如果可用，使用该优惠券
      * @return
      */
     @RequestMapping(value = "/addorder",method = RequestMethod.POST)
@@ -109,6 +114,19 @@ public class OrderController extends BaseController {
             serviceError.setCode(booleanPayRestResponse.getCode());
             serviceError.setMessage(booleanPayRestResponse.getMsg());
             return restResponseBuilder.fail(serviceError);
+        }
+
+        //如果使用了优惠券，验证并使用
+        if(StringUtil.isNotEmpty(couponId)){
+            RestResponse<MarketingCoupon> marketingCouponRestResponse = marketingServiceClient.getMarketingCoupon(couponId);
+            if(marketingCouponRestResponse !=null && marketingCouponRestResponse.getCode().equals("1") && marketingCouponRestResponse.getT() !=null){
+                MarketingCoupon marketingCoupon = marketingCouponRestResponse.getT();
+                //如果优惠券有限，并且属于userID，使用
+                if(marketingCoupon.getStatus()==0 && marketingCoupon.getUserId().equals(userId)){
+                    marketingServiceClient.useCoupon(userId,couponId);
+                }
+            }
+
         }
 
         GoodstOrder goodstOrder = new GoodstOrder();

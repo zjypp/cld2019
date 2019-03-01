@@ -112,6 +112,8 @@ public class UserController extends BaseController {
 
         User result = userService.registerUser(user);
         if(result !=null){
+            //注册成功的用户发送优惠券
+            marketingServiceClient.addUserCoupon(result.getUserId(),1,100);
             return restResponseBuilder.success(user);
         }
         else{
