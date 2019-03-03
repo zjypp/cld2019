@@ -10,6 +10,7 @@
         <module name="marketing-service" />
         <module name="order-service" />
         <module name="pay-service" />
+        <module name="turbine-service" />
         <module name="user-service" />
       </profile>
     </annotationProcessing>

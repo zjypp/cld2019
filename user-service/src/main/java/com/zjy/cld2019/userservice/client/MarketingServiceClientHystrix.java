@@ -2,6 +2,8 @@ package com.zjy.cld2019.userservice.client;
 
 import com.zjy.cld2019.common.rest.RestResponse;
 import com.zjy.cld2019.userservice.client.model.MarketingCoupon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
  */
 @Component
 public class MarketingServiceClientHystrix implements  MarketingServiceClient {
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
     @Override
     public RestResponse<List<MarketingCoupon>> getUserCoupons(String userId) {
         return null;
@@ -21,6 +25,8 @@ public class MarketingServiceClientHystrix implements  MarketingServiceClient {
 
     @Override
     public RestResponse<Boolean> addUserCoupon(String userId, Integer type, Integer money) {
+
+        logger.info("*** marketing servicr is Hystrix");
         return null;
     }
 

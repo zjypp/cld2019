@@ -1,0 +1,31 @@
+
+server:
+  port: 9901
+spring:
+  application:
+    name: turbine-service
+  cloud:
+    consul:
+      discovery:
+        health-check-path: /consul/health
+        ip-address: 127.0.0.1
+      host: 127.0.0.1
+      port: 8500
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+
+turbine:
+  app-config: user-service,pay-service,order-service,marketing-service
+  aggregator:
+    clusterConfig: default
+  clusterNameExpression: new String("default")
+  combine-host: true
+  instanceUrlSuffix:
+    default: actuator/hystrix.stream

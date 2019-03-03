@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Version: 1.0
  * @Des：
  */
-@FeignClient(value = "pay-service")
+@FeignClient(value = "pay-service",fallback = PayServiceClientHystrix.class)
 public interface PayServiceClient {
     /**
      * 查询支付账户

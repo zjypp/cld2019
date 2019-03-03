@@ -2,6 +2,7 @@ package com.zjy.cld2019.orderservice.client.payServiceClient;
 
 import com.zjy.cld2019.common.rest.RestResponse;
 import com.zjy.cld2019.orderservice.client.payServiceClient.model.UserAccount;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author: Jason Zhang
@@ -9,7 +10,8 @@ import com.zjy.cld2019.orderservice.client.payServiceClient.model.UserAccount;
  * @Version: 1.0
  * @Des：
  */
-public class PayServcieClientHystrix implements PayServiceClient {
+@Component
+public class PayServiceClientHystrix implements PayServiceClient {
     @Override
     public RestResponse<UserAccount> getUserAccount(String userId) {
         return null;

@@ -1,6 +1,8 @@
 package com.zjy.cld2019.userservice.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.ribbon.proxy.annotation.Hystrix;
 import com.zjy.cld2019.common.rest.RestResponse;
 import com.zjy.cld2019.common.rest.controller.BaseController;
 import com.zjy.cld2019.common.utils.PhoneUtil;
@@ -36,23 +38,27 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public RestResponse<Boolean> test(){
+    public String test(String test) throws Exception {
         logger.trace("日志输出trace");
         logger.debug("日志输出debug");
-        logger.info("日志输出info");
-        logger.warn("日志输出warn");
-        logger.error("日志输出error");
-        RestResponse<List<MarketingCoupon>> coupons = marketingServiceClient.getUserCoupons("aaa");
 
-        RestResponse<Boolean> result = marketingServiceClient.addUserCoupon("aaa",0,100);
+        return hello(test);
 
-        if(result!=null && result.getCode().equals("1") && result.getT()==true){
-            return restResponseBuilder.success(true);
-        }else{
-            return restResponseBuilder.success(false);
+    }
+    @HystrixCommand(fallbackMethod ="helloHystrix" )
+    public String hello(String test) throws Exception {
+        if(test.equals("test")){
+            logger.info("****** throw new exceptio ");
+            throw new Exception();
         }
+        else{
+            return test;
+        }
+    }
 
-        //return "test";
+    public String helloHystrix(){
+        logger.info("****** hello hystrix");
+        return "this is hello method Hystrix";
     }
 
 
@@ -114,6 +120,7 @@ public class UserController extends BaseController {
         if(result !=null){
             //注册成功的用户发送优惠券
             marketingServiceClient.addUserCoupon(result.getUserId(),1,100);
+
             return restResponseBuilder.success(user);
         }
         else{

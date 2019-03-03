@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Version: 1.0
  * @Des：
  */
-@FeignClient(value = "user-service",fallback = UserServiceClientHystrix.class)
+@FeignClient(value = "user-service")
 public interface UserServiceClient {
 
     @RequestMapping(value = "/user/getuser",method = RequestMethod.POST)

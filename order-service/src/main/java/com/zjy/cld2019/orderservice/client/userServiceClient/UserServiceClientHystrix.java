@@ -2,6 +2,7 @@ package com.zjy.cld2019.orderservice.client.userServiceClient;
 
 import com.zjy.cld2019.common.rest.RestResponse;
 import com.zjy.cld2019.orderservice.client.userServiceClient.model.User;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author: Jason Zhang
@@ -9,6 +10,7 @@ import com.zjy.cld2019.orderservice.client.userServiceClient.model.User;
  * @Version: 1.0
  * @Des：
  */
+@Component
 public class UserServiceClientHystrix implements UserServiceClient {
     @Override
     public RestResponse<User> getUser(String id) {

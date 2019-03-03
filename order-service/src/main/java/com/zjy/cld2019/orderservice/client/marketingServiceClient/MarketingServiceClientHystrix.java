@@ -2,6 +2,7 @@ package com.zjy.cld2019.orderservice.client.marketingServiceClient;
 
 import com.zjy.cld2019.common.rest.RestResponse;
 import com.zjy.cld2019.orderservice.client.marketingServiceClient.model.MarketingCoupon;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @Version: 1.0
  * @Des：
  */
+@Component
 public class MarketingServiceClientHystrix implements MarketingServiceClient {
     @Override
     public RestResponse<MarketingCoupon> getMarketingCoupon(String couponId) {

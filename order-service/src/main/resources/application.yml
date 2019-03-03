@@ -21,6 +21,10 @@ spring:
     druid:
       connection-properties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKJISOcmzfuzdnOHrkIu0CGGqaINUhGsC/Tp7DtW5NtzvFycDOCGNohxh93yEJDhhokY4kxzWuWwPRIjg5VHOiUCAwEAAQ==
       filters: config
+  sleuth:
+    trace-id128: true
+    sampler:
+      probability: 1.0
 
 mybatis:
   configuration:
@@ -30,7 +34,9 @@ mybatis:
 logging:
   level:
     com.zjy.cld2019.orderservice.dao: debug
-
+feign:
+  hystrix:
+    enabled: true
 
 
 

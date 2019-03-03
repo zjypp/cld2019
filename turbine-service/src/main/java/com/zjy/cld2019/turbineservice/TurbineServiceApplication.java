@@ -1,25 +1,25 @@
-package com.zjy.cld2019.orderservice;
+package com.zjy.cld2019.turbineservice;
 
-import com.zjy.cld2019.common.rest.EnableRestExceptionHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.netflix.turbine.EnableTurbine;
+import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
+@RestController
 @EnableDiscoveryClient
-@EnableRestExceptionHandler
-@EnableFeignClients
+@SpringBootApplication
 @EnableHystrix
 @EnableHystrixDashboard
 @EnableCircuitBreaker
-public class OrderServiceApplication {
+@EnableTurbine
+public class TurbineServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OrderServiceApplication.class, args);
+        SpringApplication.run(TurbineServiceApplication.class, args);
     }
 
 }
