@@ -22,3 +22,4 @@
   
 备注附录  
 1.Druid的加密参考https://github.com/alibaba/druid/wiki/使用ConfigFilter
+2.zipkin下载启动参考https://zipkin.io/pages/quickstart.html
