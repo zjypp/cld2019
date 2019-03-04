@@ -1,0 +1,31 @@
+
+server:
+  port: 9902
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    consul:
+      discovery:
+        health-check-path: /consul/health
+        ip-address: 127.0.0.1
+      host: 127.0.0.1
+      port: 8500
+    gateway:
+      enabled: true
+      routes:
+      - id: user_service_route
+        uri: lb://user-service/ #lb:开头标示从注册中心读取服务
+        predicates:
+        - Path=/userapi/**
+        filters:
+          - StripPrefix=1 # 表示在转发时去掉userapi;只有这样配置以userapi开头的请求都会转发到user-service服务中
+          - name: Hystrix
+            args:
+              name: userServiceFallback
+              fallbackUri: forward:/user/fallback
+
+#在控制台显示执行的sql；
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
