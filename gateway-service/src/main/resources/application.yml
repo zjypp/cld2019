@@ -24,8 +24,22 @@ spring:
             args:
               name: userServiceFallback
               fallbackUri: forward:/user/fallback
+      - id: user-service-test-route1
+        uri: http://localhost:9001/user/v1
+        predicates:
+        - Path=/utest
+        - Weight=service1, 95
+      - id: user-service-test-route2
+        uri: http://localhost:9001/user/v2
+        predicates:
+        - Path=/utest
+        - Weight=service1, 5
+
 
 #在控制台显示执行的sql；
 logging:
   level:
-    org.springframework.cloud.gateway: debug
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG

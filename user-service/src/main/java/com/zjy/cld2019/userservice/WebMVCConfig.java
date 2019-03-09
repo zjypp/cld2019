@@ -22,4 +22,5 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
+
 }

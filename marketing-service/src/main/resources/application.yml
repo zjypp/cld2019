@@ -21,7 +21,10 @@ spring:
     druid:
       connection-properties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKJISOcmzfuzdnOHrkIu0CGGqaINUhGsC/Tp7DtW5NtzvFycDOCGNohxh93yEJDhhokY4kxzWuWwPRIjg5VHOiUCAwEAAQ==
       filters: config
-
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
 mybatis:
   configuration:
     map-underscore-to-camel-case: true

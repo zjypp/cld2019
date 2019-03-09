@@ -13,6 +13,8 @@
         <option value="$PROJECT_DIR$/pay-service/pom.xml" />
         <option value="$PROJECT_DIR$/order-service/pom.xml" />
         <option value="$PROJECT_DIR$/turbine-service/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway-service/pom.xml" />
+        <option value="$PROJECT_DIR$/bootadmin-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

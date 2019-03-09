@@ -11,6 +11,7 @@
 
     <name>my spring cloud project</name>
 
+    <!--如果发现升级到2.1以上的版本就报某些类找不到，问题没有定位到在哪里 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -43,6 +44,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -78,6 +80,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
         <!--因为jdk版本的问题，必须引入这些，
         不然报错java.lang.TypeNotPresentException: Type javax.xml.bind.JAXBContext not present -->
         <dependency>
@@ -118,6 +126,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.6</version>
             </plugin>
         </plugins>
     </build>
