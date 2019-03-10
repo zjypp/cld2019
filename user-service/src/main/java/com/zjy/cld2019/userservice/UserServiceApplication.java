@@ -1,5 +1,6 @@
 package com.zjy.cld2019.userservice;
 
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.zjy.cld2019.common.rest.EnableRestExceptionHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,13 +11,13 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@SpringBootApplication
 @EnableDiscoveryClient
 @EnableRestExceptionHandler
 @EnableFeignClients
 @EnableHystrix
 @EnableHystrixDashboard
 @EnableCircuitBreaker
+@SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
 public class UserServiceApplication {
 
     public static void main(String[] args) {

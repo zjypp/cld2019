@@ -11,16 +11,35 @@ spring:
       host: 127.0.0.1
       port: 8500
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/zjy?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: root
-    #在配置文件中存储加密的密码，使用对应的druid版本，执行加密脚本，把加密后的password和publicKey写入到此配置文件中，connection-properties和filters必须要有，
-    #password: mysql123
-    type: com.alibaba.druid.pool.DruidDataSource
-    password: e8MYFoRHX/toflK7BnknzZdOkrEHyHg4C+UghvoFv2qvRB7ooq8wLBMzNjl+QzLk7rnjGrv+6644BctNZFeTMg==
-    druid:
-      connection-properties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKJISOcmzfuzdnOHrkIu0CGGqaINUhGsC/Tp7DtW5NtzvFycDOCGNohxh93yEJDhhokY4kxzWuWwPRIjg5VHOiUCAwEAAQ==
-      filters: config
+    dynamic:
+      datasource:
+        master:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/zjy?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          username: root
+          type: com.alibaba.druid.pool.DruidDataSource
+          password: e8MYFoRHX/toflK7BnknzZdOkrEHyHg4C+UghvoFv2qvRB7ooq8wLBMzNjl+QzLk7rnjGrv+6644BctNZFeTMg==
+          druid:
+            #connection-properties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKJISOcmzfuzdnOHrkIu0CGGqaINUhGsC/Tp7DtW5NtzvFycDOCGNohxh93yEJDhhokY4kxzWuWwPRIjg5VHOiUCAwEAAQ==
+            public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKJISOcmzfuzdnOHrkIu0CGGqaINUhGsC/Tp7DtW5NtzvFycDOCGNohxh93yEJDhhokY4kxzWuWwPRIjg5VHOiUCAwEAAQ==
+            filters: config
+            max-active: 100 #最大连接池数量
+            min-idle: 10 #最小连接池数量
+            initial-size: 10 #初始化线程数量
+            max-wait: 6000 #最长等待时间
+        read1:
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/zjy?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          username: dev_read
+          type: com.alibaba.druid.pool.DruidDataSource
+          password: j3b6diqV492Ecm2mO2J2kRTFrckT8cXPVIIi01gEXc9eMT+ujRGRhAUWAcr7OK3MkU3E3v+V1sU5QGma0mossA==
+          druid:
+            public-key:  MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKRXLjGgZ/iELSTvoiwY3i5oJ/TEsDCoz1JrwVlfv4YJPCqRpVnR1g0Rd0Ek9/7BLd65H1uK9E4o4D797peqc1UCAwEAAQ==
+            filters: config
+            max-active: 100 #最大连接池数量
+            min-idle: 10 #最小连接池数量
+            initial-size: 10 #初始化线程数量
+            max-wait: 6000 #最长等待时间
   sleuth:
     trace-id128: true
     sampler:
@@ -46,3 +65,6 @@ feign:
 
 
 
+#在配置文件中存储加密的密码，使用对应的druid版本，执行加密脚本，把加密后的password和publicKey写入到此配置文件中，connection-properties和filters必须要有，
+#password: mysql123 root账户密码，dev_read：read123
+# 使用多数据源依赖，必须添加@SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
