@@ -3,8 +3,13 @@ package com.zjy.cld2019.orderservice.service;
 import com.zjy.cld2019.orderservice.dao.OrderMapper;
 import com.zjy.cld2019.orderservice.model.GoodsSku;
 import com.zjy.cld2019.orderservice.model.GoodstOrder;
+//import org.dromara.hmily.annotation.Hmily;
+//import org.dromara.hmily.common.exception.HmilyRuntimeException;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 /**
  * @Author: Jason Zhang
@@ -17,6 +22,8 @@ public class OrderService {
     @Autowired
     OrderMapper orderMapper;
 
+    //Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public GoodsSku getGoodsSku(String skuId){
         return orderMapper.getGoodsSku(skuId);
     }
@@ -25,6 +32,7 @@ public class OrderService {
         int result = orderMapper.decreaseGoodSku(skuId,amount);
         return result == 1?true:false;
     }
+
 
     /**
      *下订单
@@ -43,5 +51,55 @@ public class OrderService {
             return -1;//库存不存在或者库存不足
         }
 
+    }
+
+    /**
+     * 模拟正常分布式请求
+     * @param skuId
+     * @param amount
+     * @return
+     */
+   // @Hmily(confirmMethod = "skuConfirmMethod", cancelMethod = "skuCancelMethod")
+    public  boolean decreaseSkuTry(String skuId,int amount){
+        int result = orderMapper.decreaseGoodSku(skuId,amount);
+        return result == 1?true:false;
+    }
+
+    /**
+     * 模拟异常情况下的分布式请求
+     * @param skuId
+     * @param amount
+     * @return
+     */
+    //@Hmily(confirmMethod = "skuConfirmMethod", cancelMethod = "skuCancelMethod")
+    public boolean decreaseSkuMockWithExceptionTry(String skuId,int amount){
+        //int result = orderMapper.decreaseGoodSku(skuId,amount);
+        //throw new HmilyRuntimeException("库存扣减异常！");
+        return false;
+    }
+    /**
+     * 模拟超时情况下的分布式请求
+     * @param skuId
+     * @param amount
+     * @return
+     */
+   // @Hmily(confirmMethod = "skuConfirmMethod", cancelMethod = "skuCancelMethod")
+    public boolean decreaseSkuMockWithTimeoutTry(String skuId,int amount){
+        try {
+            Thread.sleep(50000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        int result = orderMapper.decreaseGoodSku(skuId,amount);
+        return result == 1?true:false;
+    }
+
+    public  boolean skuConfirmMethod(String skuId,int amount){
+        int result = orderMapper.decreaseGoodSkuConfirm(skuId,amount);
+        return result == 1?true:false;
+    }
+    public  boolean skuCancelMethod(String skuId,int amount){
+        int result = orderMapper.decreaseGoodSkuCancel(skuId,amount);
+        return result == 1?true:false;
     }
 }

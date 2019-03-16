@@ -1,0 +1,13 @@
+
+server:
+  port: 9800
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/zjy?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    username: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    password: mysql123
+

@@ -140,4 +140,26 @@ public class OrderController extends BaseController {
 
 
     }
+
+
+    @RequestMapping(value = "/decreasesku",method = RequestMethod.POST)
+    public RestResponse<Boolean> decreaseSku(String skuId,Integer amount){
+        Boolean result = orderService.decreaseGoodsSku(skuId,amount);
+        if(result){
+            return restResponseBuilder.success(true);
+        }else{
+            return restResponseBuilder.fail(OrderServiceError.OR020001);
+        }
+    }
+
+
+    @RequestMapping(value = "/decreaseskuexception",method = RequestMethod.POST)
+    public RestResponse<Boolean> decreaseSkuException(String skuId,Integer amount){
+        Boolean result = orderService.decreaseSkuMockWithExceptionTry(skuId,amount);
+        if(result){
+            return restResponseBuilder.success(true);
+        }else{
+            return restResponseBuilder.fail(OrderServiceError.OR020001);
+        }
+    }
 }

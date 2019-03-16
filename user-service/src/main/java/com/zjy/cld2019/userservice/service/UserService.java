@@ -1,5 +1,6 @@
 package com.zjy.cld2019.userservice.service;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.zjy.cld2019.common.utils.MD5Utils;
 import com.zjy.cld2019.common.utils.PwdUtil;
 import com.zjy.cld2019.common.utils.StringUtil;
@@ -20,6 +21,7 @@ public class UserService {
     @Autowired
     UserLoginLogMapper userLoginLogMapper;
 
+    @DS("read1")
     public User getUserById(Integer id){
         return userMapper.getUserById(id);
     }
