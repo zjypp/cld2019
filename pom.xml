@@ -25,6 +25,7 @@
         <module>pay-service</module>
         <module>order-service</module>
         <module>turbine-service</module>
+        <module>quartz-service</module>
     </modules>
 
     <properties>

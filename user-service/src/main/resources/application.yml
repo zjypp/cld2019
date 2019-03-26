@@ -48,6 +48,15 @@ spring:
     admin:
       client:
         url: http://localhost:8080
+  #Redis 配置，使用Lettuce框架，线程安全
+  redis:
+    host: localhost
+    port: 6379
+    lettuce:
+      pool:
+        min-idle: 5
+        max-active: 8
+        max-idle: 5
 
 mybatis:
   configuration:
@@ -60,7 +69,6 @@ logging:
 feign:
   hystrix:
     enabled: true
-
 
 
 

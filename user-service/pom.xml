@@ -69,7 +69,22 @@
             <version>2.6.1</version>
         </dependency>
 
+        <!-- redis依赖commons-pool 这个依赖一定要添加,默认使用Lettuce框架，线程安全 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
 
+        <!-- redisson 用于分布式环境下redis锁的实现 -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.10.4</version>
+        </dependency>
     </dependencies>
 
 

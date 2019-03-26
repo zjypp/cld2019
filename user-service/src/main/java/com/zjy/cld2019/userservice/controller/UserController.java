@@ -1,28 +1,34 @@
 package com.zjy.cld2019.userservice.controller;
 
-import com.alibaba.fastjson.JSONObject;
+
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.ribbon.proxy.annotation.Hystrix;
+
 import com.zjy.cld2019.common.rest.RestResponse;
 import com.zjy.cld2019.common.rest.controller.BaseController;
 import com.zjy.cld2019.common.utils.PhoneUtil;
 import com.zjy.cld2019.common.utils.StringUtil;
 import com.zjy.cld2019.userservice.client.MarketingServiceClient;
-import com.zjy.cld2019.userservice.client.model.MarketingCoupon;
 import com.zjy.cld2019.userservice.error.UserServiceError;
 import com.zjy.cld2019.userservice.model.User;
 import com.zjy.cld2019.userservice.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.redisson.client.RedisClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -35,7 +41,45 @@ public class UserController extends BaseController {
     @Autowired
     MarketingServiceClient marketingServiceClient;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @Autowired
+    RedissonClient redissonClient;
+
     Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    /**
+     * 未加锁的情况下，出现了重复读取aaa某个时刻的值。导致在aaa原值100的情况下，即使经过150的循环递减，也未能使aaa《=0
+     * 加了redission的锁的情况下，读取aaa的值没有重复，递减至0
+     * @return
+     */
+    @GetMapping("/redis")
+    public String redisTest(){
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+        for (int n=0;n<=150;n++){
+            fixedThreadPool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        RLock rLock = redissonClient.getLock("redission_lock");
+                        rLock.lock(100,TimeUnit.MILLISECONDS);
+                        int stock = Integer.parseInt(redisTemplate.opsForValue().get("aaa").toString());
+                        System.out.println("****----" +Thread.currentThread().getName()+"--" + stock);
+                        if(stock>0){
+                            redisTemplate.opsForValue().set("aaa",(stock-1)+"");
+                        }
+                        rLock.unlock();
+                    }
+                    catch (Exception e){
+                        System.out.println("*****"+e.getMessage());
+                    }
+                }
+            });
+        }
+
+        return "t";
+    }
 
     @GetMapping("/v1")
     public String testV1(){
